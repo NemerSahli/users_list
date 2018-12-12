@@ -1,0 +1,17 @@
+.App,
+div,
+input,
+button {
+  margin: 10px;
+}
+
+#root {
+  min-width: 350px;
+}
+.hoverme {
+  padding: 5px;
+}
+.hoverme:hover {
+  background: rgba(165, 163, 163, 0.1);
+  border-radius: 10%;
+}
