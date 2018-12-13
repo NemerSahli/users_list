@@ -71,8 +71,11 @@ export default class Header extends React.Component {
     return (
       <div>
         <Navbar color="light" light expand="md">
-          <NavbarBrand href="/users" className="hoverme">
-            Users List
+          <NavbarBrand
+            className="hoverme"
+            style={{ textUnderlinePosition: 'none' }}
+          >
+            <Link to="users">Users List</Link>
           </NavbarBrand>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>

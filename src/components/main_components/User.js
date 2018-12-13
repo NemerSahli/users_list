@@ -16,6 +16,7 @@ export default function User(props) {
 
           <i
             className=" fas fa-user-times"
+            onClick="return confirm('Are you sure you want to delete this item?');"
             onClick={props.deleteUserHandler.bind(this, props.id)}
             style={{ cursor: 'pointer' }}
           />

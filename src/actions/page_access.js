@@ -10,6 +10,7 @@ export const logIn = (loginUser, routeTo) => async dispatch => {
     console.log(result);
     if (result.data.error === 0) {
       dispatch({ type: 'LOGIN' });
+      localStorage.setItem('logedIn', 'yes');
       routeTo.push('/users');
     } else {
     }
