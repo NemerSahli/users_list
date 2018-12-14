@@ -14,7 +14,7 @@ export const logIn = (loginUser, routeTo) => async dispatch => {
       routeTo.push('/users');
     } else {
     }
-    dispatch({ type: 'LOGIN_FAILD', error: result.data.error });
+    dispatch({ type: 'LOGIN_FAILD', error: result.data.message });
   } catch (e) {
     alert('error:' + e);
   }
@@ -53,6 +53,25 @@ export const signUp = (signUpUser, routeTo) => async dispatch => {
       routeTo.push('/signupsuccessful');
     } else {
       dispatch({ type: 'SIGN_UP_FAILD', error: result.data.message });
+    }
+  } catch (e) {
+    alert('error:' + e);
+  }
+};
+
+export const forgetPassword = (forgetPassUser, routeTo) => async dispatch => {
+  try {
+    alert(JSON.stringify(forgetPassUser));
+    const result = await axios('http://localhost:8000/forgetpass', {
+      method: 'post',
+      data: forgetPassUser,
+      withCredentials: true
+    });
+    console.log(result);
+    if (result.data.error === 0) {
+      alert(result.data.message);
+    } else {
+      dispatch({ type: 'FORGET_PASS_FAILD', error: result.data.message });
     }
   } catch (e) {
     alert('error:' + e);

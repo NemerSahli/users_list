@@ -3,7 +3,9 @@ const intialState = {
   loggedIn: false,
   modalOpen: false,
   currentUser: '',
-  failedMessage: ''
+  loginFailedMessage: '',
+  forgetPassFailedMessage: '',
+  failedSignUpMessage: ''
 };
 
 export default function(state = intialState, action) {
@@ -12,20 +14,27 @@ export default function(state = intialState, action) {
       return {
         ...state,
         loggedIn: true,
-        failedMessage: ''
+        loginFailedMessage: '',
+        forgetPassFailedMessage: '',
+        failedSignUpMessage: ''
       };
 
     case 'LOGIN_FAILD':
-      let failedLogInMessage = '';
-      if (action.error === 1000) {
-        failedLogInMessage = 'Email not found or wrong password!';
-      }
-      if (action.error === 1001) {
-        failedLogInMessage = 'login failed!';
-      }
+      // let failedLogInMessage = '';
+      // if (action.error === 1000) {
+      //   failedLogInMessage = 'Email not found or wrong password!';
+      // }
+      // if (action.error === 1001) {
+      //   failedLogInMessage = 'login failed!';
+      // }
       return {
         ...state,
-        failedMessage: failedLogInMessage
+        loginFailedMessage: action.error
+      };
+    case 'FORGET_PASS_FAILD':
+      return {
+        ...state,
+        forgetPassFailedMessage: action.error
       };
 
     case 'SIGN_UP_FAILD':

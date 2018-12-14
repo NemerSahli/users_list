@@ -76,10 +76,6 @@ app.post('/login', (req, res) => {
 });
 
 app.post('/signup', (req, res) => {
-  console.log('singup');
-  console.log(' userEmail', req.body.userEmail);
-  console.log(' password.', req.body.password);
-
   if (!req.body.userEmail || !req.body.password) {
     return res.send({ error: 1000, message: 'username and password required' });
   }
@@ -112,6 +108,28 @@ app.post('/signup', (req, res) => {
         }
         return res.send({ error: 0, message: 'sign up successfull' });
       });
+    });
+  });
+});
+
+app.post('/forgetpass', (req, res) => {
+  if (!req.body.userEmail) {
+    return res.send({ error: 1000, message: 'Email is required' });
+  }
+
+  Email.findOne({ userEmail: req.body.userEmail }, (err, dbres) => {
+    if (err) {
+      return res.send({ error: 1001, message: 'signup failed' });
+    }
+    if (!dbres) {
+      return res.send({
+        error: 1000,
+        message: 'email not exit.'
+      });
+    }
+    res.send({
+      error: 0,
+      message: 'please check your email to reset your passwrod'
     });
   });
 });

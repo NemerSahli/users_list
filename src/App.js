@@ -12,6 +12,7 @@ import Header from './components/layout/Header';
 import { logOut } from './actions/page_access';
 import SignUp from './components/main_components/SignUp';
 import SingUpSuccessful from './components/pages/SingUpSuccessful';
+import ForgetPass from './components/main_components/ForgetPass';
 
 class App extends Component {
   routeToLogOut = () => {
@@ -28,6 +29,7 @@ class App extends Component {
             <Switch>
               <Route exact path="/" component={Login} />
               <Route exact path="/signup" component={SignUp} />
+              <Route exact path="/forgetpass" component={ForgetPass} />
               <Route
                 exact
                 path="/signupsuccessful"

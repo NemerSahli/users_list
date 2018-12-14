@@ -84,7 +84,7 @@ class Login extends Component {
               )}
             </FormGroup>
             <div>
-              <Link to="/forgetpassword" className="pt-5">
+              <Link to="/forgetpass" className="pt-5">
                 forget password
               </Link>
             </div>
@@ -100,9 +100,9 @@ class Login extends Component {
               </Button>
             </div>
           </Form>
-          {!this.props.failedMessage == '' ? (
+          {!this.props.loginFailedMessage == '' ? (
             <div className="invalid-feedback d-block mt-2">
-              {this.props.failedMessage}{' '}
+              {this.props.loginFailedMessage}{' '}
             </div>
           ) : null}
         </div>
@@ -113,7 +113,7 @@ class Login extends Component {
 
 const mapStateToProps = state => ({
   loggedIn: state.reducer1.loggedIn,
-  failedMessage: state.reducer1.failedMessage
+  loginFailedMessage: state.reducer1.loginFailedMessage
 });
 
 export default connect(
