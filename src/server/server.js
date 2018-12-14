@@ -7,6 +7,7 @@ const mongoose = require('mongoose');
 const User = require('./usermodel.js');
 const Email = require('./emailmodel');
 const mailSender = require('./mailSender');
+const randomstring = require('randomstring');
 
 mongoose.connect('mongodb://localhost:27017/users_list');
 const corsOptions = {
@@ -130,7 +131,9 @@ app.post('/forgetpass', (req, res) => {
     }
     let mailBody = `<h3>You got this email to reset your password</h3>
                     <p>Please confirm to reset the password by click on the link below:</p>
-                    <a href="http://localhost:3000/resetpass">Reset password</a>
+                    <a href="http://localhost:3000/resetpass?email=${
+                      req.body.userEmail
+                    }">Reset password</a>
                     <p>yours sincerely</p>
                     <p>Nemer EL-Sahli</p>`;
     mailSender.sendMail(req.body.userEmail, 'Reset Password', mailBody);
@@ -138,6 +141,39 @@ app.post('/forgetpass', (req, res) => {
     res.send({
       error: 0,
       message: 'please check your email to reset your passwrod'
+    });
+  });
+});
+app.post('/signup', (req, res) => {
+  if (!req.body.userEmail || !req.body.password) {
+    return res.send({ error: 1000, message: 'username and password required' });
+  }
+  Email.findOne({ userEmail: req.body.userEmail }, (err, dbres) => {
+    if (err) {
+      return res.send({ error: 1001, message: 'signup failed' });
+    }
+    if (!dbres) {
+      return res.send({
+        error: 1000,
+        message: 'email not exist.'
+      });
+    }
+    // 2b$10$IxxGxb3U6IuYBDP0M6TB6Oy0c/cfX6fkGTpyPrRZC59etv6g9UktC
+    bcrypt.hash(req.body.password, 10, (err, hashedPassResult) => {
+      if (err) return send.send({ err: err });
+      console.log('Hashed password', hashedPassResult);
+
+      dbres.password = hashedPassResult;
+
+      dbres.save(err => {
+        if (err) {
+          return res.send({
+            error: 1001,
+            message: 'failed during to save new password'
+          });
+        }
+        return res.send({ error: 0, message: 'password reseted successfully' });
+      });
     });
   });
 });

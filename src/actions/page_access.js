@@ -86,7 +86,6 @@ export const resetPassword = (forgetPassUser, routeTo) => async dispatch => {
     console.log(result);
     if (result.data.error === 0) {
       alert(result.data.message);
-
       dispatch({ type: 'RESET_FAILD_MESSAGES' });
     } else {
       dispatch({ type: 'FORGET_PASS_FAILD', error: result.data.message });

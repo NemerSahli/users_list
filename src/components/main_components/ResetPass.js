@@ -10,6 +10,10 @@ class ResetPass extends Component {
     confirmPass: '',
     errors: null
   };
+  constructor() {
+    super();
+    this.state.userEmail = window.location.href.split('email=')[1];
+  }
 
   resetPass = () => {
     const { userEmail, password, confirmPass } = this.state;
@@ -67,7 +71,7 @@ class ResetPass extends Component {
                 placeholder="example@example.com"
                 autoComplete="true"
                 onChange={this.onChangeHandler}
-                value="nemer.sahli@gmail.com"
+                value={this.state.userEmail}
                 disabled
               />
               {this.state.errors && (
