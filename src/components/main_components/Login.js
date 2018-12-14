@@ -6,23 +6,34 @@ import { Link } from 'react-router-dom';
 class Login extends Component {
   state = {
     userEmail: '',
-    password: ''
+    password: '',
+    errors: null
   };
 
   logIn = () => {
+    const { userEmail, password, confirmPass } = this.state;
+    if (userEmail === '') {
+      this.setState({ errors: { userEmail: 'Email is required' } });
+      return;
+    }
+
+    if (password === '') {
+      this.setState({ errors: { password: 'Password is required' } });
+      return;
+    }
+
     let loginUser = {
       userEmail: this.state.userEmail,
       password: this.state.password
     };
-    this.setState({
-      message: 'please wait ...'
-    });
+
     this.props.logIn(loginUser, this.props.history);
   };
 
   onChangeHandler = e => {
     this.setState({
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
+      errors: null
     });
   };
 
@@ -46,6 +57,12 @@ class Login extends Component {
                 autoComplete="true"
                 onChange={this.onChangeHandler}
               />
+              {this.state.errors && (
+                <div className="invalid-feedback d-block">
+                  {' '}
+                  {this.state.errors.userEmail}{' '}
+                </div>
+              )}
             </FormGroup>
             <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
               <Label for="password" className="mr-sm-2">
@@ -59,6 +76,12 @@ class Login extends Component {
                 autoComplete="true"
                 onChange={this.onChangeHandler}
               />
+              {this.state.errors && (
+                <div className="invalid-feedback d-block">
+                  {' '}
+                  {this.state.errors.password}{' '}
+                </div>
+              )}
             </FormGroup>
             <div>
               <Link to="/forgetpassword" className="pt-5">

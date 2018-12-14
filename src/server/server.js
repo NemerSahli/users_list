@@ -2,6 +2,7 @@ const express = require('express');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
+const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
 const User = require('./usermodel.js');
 const Email = require('./emailmodel');
@@ -44,12 +45,6 @@ app.post('/login', (req, res) => {
     return res.send({ error: 1000, message: 'username and password required' });
   }
 
-  let newLoginUser = {
-    userEmail: req.body.userEmail,
-    password: req.body.password
-  };
-
-  console.log(newLoginUser);
   Email.findOne({ userEmail: req.body.userEmail }, (err, dbres) => {
     if (err) {
       return res.send({ error: 1001, message: 'login failed' });
@@ -60,24 +55,23 @@ app.post('/login', (req, res) => {
         message: 'Email not found or wrong password'
       });
     }
-
-    if (
-      req.body.userEmail === dbres.userEmail &&
-      req.body.password === dbres.password
-    ) {
-      loggedInUser = req.body.userEmail;
-      req.session.user = loggedInUser;
-      req.session.admin = true;
-      dbres.save(err => {
-        if (err) return res.send({ erroro: 1001, message: 'login failed' });
-        return res.send({ error: 0, message: 'login successfull' });
-      });
-    } else {
-      return res.send({
-        error: 1000,
-        message: 'Email not found or wrong password'
-      });
-    }
+    bcrypt.compare(req.body.password, dbres.password, (error, result) => {
+      if (error) res.send({ error: error });
+      if (req.body.userEmail === dbres.userEmail && result) {
+        loggedInUser = req.body.userEmail;
+        req.session.user = loggedInUser;
+        req.session.admin = true;
+        dbres.save(err => {
+          if (err) return res.send({ erroro: 1001, message: 'login failed' });
+          return res.send({ error: 0, message: 'login successfull' });
+        });
+      } else {
+        return res.send({
+          error: 1000,
+          message: 'Email not found or wrong password'
+        });
+      }
+    });
   });
 });
 
@@ -100,18 +94,24 @@ app.post('/signup', (req, res) => {
       });
     }
 
-    let query = {
-      userEmail: req.body.userEmail,
-      password: req.body.password,
-      previousVisit: '',
-      lastVisit: ''
-    };
-    let newEmail = new Email(query);
-    newEmail.save(err => {
-      if (err) {
-        return res.send({ error: 1001, message: 'sign up failed' });
-      }
-      return res.send({ error: 0, message: 'sign up successfull' });
+    bcrypt.hash(req.body.password, 10, (err, hashedPassResult) => {
+      if (err) return send.send({ err: err });
+      console.log('Hashed password', hashedPassResult);
+
+      let query = {
+        userEmail: req.body.userEmail,
+        password: hashedPassResult,
+        previousVisit: '',
+        lastVisit: ''
+      };
+
+      let newEmail = new Email(query);
+      newEmail.save(err => {
+        if (err) {
+          return res.send({ error: 1001, message: 'sign up failed' });
+        }
+        return res.send({ error: 0, message: 'sign up successfull' });
+      });
     });
   });
 });
