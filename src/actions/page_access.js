@@ -75,3 +75,23 @@ export const forgetPassword = (forgetPassUser, routeTo) => async dispatch => {
     alert('error:' + e);
   }
 };
+
+export const resetPassword = (forgetPassUser, routeTo) => async dispatch => {
+  try {
+    const result = await axios('http://localhost:8000/resetpass', {
+      method: 'post',
+      data: forgetPassUser,
+      withCredentials: true
+    });
+    console.log(result);
+    if (result.data.error === 0) {
+      alert(result.data.message);
+
+      dispatch({ type: 'RESET_FAILD_MESSAGES' });
+    } else {
+      dispatch({ type: 'FORGET_PASS_FAILD', error: result.data.message });
+    }
+  } catch (e) {
+    alert('error:' + e);
+  }
+};

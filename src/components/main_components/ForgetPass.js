@@ -3,7 +3,7 @@ import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import { connect } from 'react-redux';
 import { forgetPassword } from '../../actions/page_access';
 import { Link } from 'react-router-dom';
-class SignUp extends Component {
+class ForgetPass extends Component {
   state = {
     userEmail: '',
     errors: null
@@ -87,4 +87,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   { forgetPassword }
-)(SignUp);
+)(ForgetPass);

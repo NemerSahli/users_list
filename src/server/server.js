@@ -6,6 +6,7 @@ const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
 const User = require('./usermodel.js');
 const Email = require('./emailmodel');
+const mailSender = require('./mailSender');
 
 mongoose.connect('mongodb://localhost:27017/users_list');
 const corsOptions = {
@@ -127,6 +128,13 @@ app.post('/forgetpass', (req, res) => {
         message: 'email not exit.'
       });
     }
+    let mailBody = `<h3>You got this email to reset your password</h3>
+                    <p>Please confirm to reset the password by click on the link below:</p>
+                    <a href="http://localhost:3000/resetpass">Reset password</a>
+                    <p>yours sincerely</p>
+                    <p>Nemer EL-Sahli</p>`;
+    mailSender.sendMail(req.body.userEmail, 'Reset Password', mailBody);
+
     res.send({
       error: 0,
       message: 'please check your email to reset your passwrod'
