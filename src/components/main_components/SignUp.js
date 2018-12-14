@@ -126,9 +126,9 @@ class SignUp extends Component {
             </Link>
           </Form>
 
-          {!this.props.failedMessage == '' ? (
+          {!this.props.signUpFailedMessage == '' ? (
             <div className="invalid-feedback d-block">
-              {this.props.failedMessage}{' '}
+              {this.props.signUpFailedMessage}{' '}
             </div>
           ) : null}
         </div>
@@ -139,12 +139,8 @@ class SignUp extends Component {
 
 const mapStateToProps = state => ({
   loggedIn: state.reducer1.loggedIn,
-  failedMessage: state.reducer1.failedMessage
+  signUpFailedMessage: state.reducer1.signUpFailedMessage
 });
-// const mapDispatchToProps = dispatch => ({
-//   logIn: () => dispatch({ type: 'LOGIN' }),
-//   logOut: () => dispatch({ type: 'LOGOUT' })
-// });
 
 export default connect(
   mapStateToProps,

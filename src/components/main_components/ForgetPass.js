@@ -83,10 +83,6 @@ const mapStateToProps = state => ({
   loggedIn: state.reducer1.loggedIn,
   forgetPassFailedMessage: state.reducer1.forgetPassFailedMessage
 });
-// const mapDispatchToProps = dispatch => ({
-//   logIn: () => dispatch({ type: 'LOGIN' }),
-//   logOut: () => dispatch({ type: 'LOGOUT' })
-// });
 
 export default connect(
   mapStateToProps,
