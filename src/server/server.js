@@ -99,6 +99,7 @@ app.post('/signup', (req, res) => {
       let query = {
         userEmail: req.body.userEmail,
         password: hashedPassResult,
+        activationKey: randomstring.generate(10),
         previousVisit: '',
         lastVisit: ''
       };
@@ -131,8 +132,8 @@ app.post('/forgetpass', (req, res) => {
     }
     let mailBody = `<h3>You got this email to reset your password</h3>
                     <p>Please confirm to reset the password by click on the link below:</p>
-                    <a href="http://localhost:3000/resetpass?email=${
-                      req.body.userEmail
+                    <a href="http://localhost:3000/resetpass?q=${
+                      dbres.activationKey
                     }">Reset password</a>
                     <p>yours sincerely</p>
                     <p>Nemer EL-Sahli</p>`;
@@ -144,13 +145,16 @@ app.post('/forgetpass', (req, res) => {
     });
   });
 });
-app.post('/signup', (req, res) => {
-  if (!req.body.userEmail || !req.body.password) {
-    return res.send({ error: 1000, message: 'username and password required' });
+app.post('/resetpass', (req, res) => {
+  if (!req.body.activationKey || !req.body.password) {
+    return res.send({
+      error: 1000,
+      message: 'new password required or wrong activationKey'
+    });
   }
-  Email.findOne({ userEmail: req.body.userEmail }, (err, dbres) => {
+  Email.findOne({ activationKey: req.body.activationKey }, (err, dbres) => {
     if (err) {
-      return res.send({ error: 1001, message: 'signup failed' });
+      return res.send({ error: 1001, message: 'reset password failed' });
     }
     if (!dbres) {
       return res.send({
@@ -158,7 +162,7 @@ app.post('/signup', (req, res) => {
         message: 'email not exist.'
       });
     }
-    // 2b$10$IxxGxb3U6IuYBDP0M6TB6Oy0c/cfX6fkGTpyPrRZC59etv6g9UktC
+    //$2b$10$2C1mVrVcE8ioAPuT.aDVJev6fHilE5nT61JUTaF0ndV8mhyJPCAxW
     bcrypt.hash(req.body.password, 10, (err, hashedPassResult) => {
       if (err) return send.send({ err: err });
       console.log('Hashed password', hashedPassResult);
@@ -169,7 +173,7 @@ app.post('/signup', (req, res) => {
         if (err) {
           return res.send({
             error: 1001,
-            message: 'failed during to save new password'
+            message: 'failed during save new password'
           });
         }
         return res.send({ error: 0, message: 'password reseted successfully' });

@@ -5,18 +5,18 @@ import { resetPassword } from '../../actions/page_access';
 import { Link } from 'react-router-dom';
 class ResetPass extends Component {
   state = {
-    userEmail: '',
+    activationKey: '',
     password: '',
     confirmPass: '',
     errors: null
   };
   constructor() {
     super();
-    this.state.userEmail = window.location.href.split('email=')[1];
+    this.state.activationKey = window.location.href.split('q=')[1];
   }
 
   resetPass = () => {
-    const { userEmail, password, confirmPass } = this.state;
+    const { password, confirmPass } = this.state;
 
     if (password === '') {
       this.setState({ errors: { password: 'Password is required' } });
@@ -33,7 +33,7 @@ class ResetPass extends Component {
     } else {
       if (this.state.password === this.state.confirmPass) {
         let resetPassEmail = {
-          userEmail: this.state.userEmail,
+          activationKey: this.state.activationKey,
           password: this.state.password
         };
 
@@ -59,31 +59,9 @@ class ResetPass extends Component {
             <h1 className="text-center">Users List</h1>
           </div>
           <Form className="border p-3 rounded">
-            <h5 className="ml-2">Enter new password:</h5>
-            <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-              <Label for="userEmail" className="mr-sm-2">
-                Email:
-              </Label>
-              <Input
-                type="email"
-                name="userEmail"
-                id="email"
-                placeholder="example@example.com"
-                autoComplete="true"
-                onChange={this.onChangeHandler}
-                value={this.state.userEmail}
-                disabled
-              />
-              {this.state.errors && (
-                <div className="invalid-feedback d-block">
-                  {' '}
-                  {this.state.errors.userEmail}{' '}
-                </div>
-              )}
-            </FormGroup>
             <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
               <Label for="password" className="mr-sm-2">
-                Password:
+                Enter new password:
               </Label>
               <Input
                 type="password"

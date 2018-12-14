@@ -4,6 +4,7 @@ var Schema = mongoose.Schema;
 var emailSchema = new Schema({
   userEmail: String,
   password: String,
+  activationKey: String,
   previousVisit: String,
   lastVisit: String
 });
