@@ -27,7 +27,6 @@ class Users extends Component {
   render() {
     return (
       <div>
-        <UpdateModal updateUserHandler={this.updateUser} />
         {this.props.loggedIn && (
           <Table hover>
             <thead>
@@ -61,6 +60,7 @@ class Users extends Component {
             </tbody>
           </Table>
         )}
+        <UpdateModal updateUserHandler={this.updateUser} />
       </div>
     );
   }
