@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import TextInputGroup from '../layout/TextInputGroup';
 import { connect } from 'react-redux';
-import { addUser } from '../../actions/actions';
+import { addUser } from '../../actions/crud';
 
 class AddUser extends Component {
   state = {

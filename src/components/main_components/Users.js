@@ -7,7 +7,7 @@ import {
   deleteUser,
   updateUser,
   openUpdateModal
-} from '../../actions/actions';
+} from '../../actions/crud';
 import UpdateModal from './UpdateModal';
 class Users extends Component {
   componentDidMount() {
