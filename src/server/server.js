@@ -8,7 +8,7 @@ const User = require('./usermodel.js');
 const Email = require('./emailmodel');
 const mailSender = require('./mailSender');
 const randomstring = require('randomstring');
-
+const apiCrud = require('./controllers/apiCrud');
 mongoose.connect('mongodb://localhost:27017/users_list');
 const corsOptions = {
   origin: 'http://localhost:3000',
@@ -188,6 +188,7 @@ app.post('/logout', (req, res) => {
   // res.redirect('/');
 });
 
+// apiCrud(app, auth, User);
 app.get('/users', auth, (req, res) => {
   console.log('get users');
 
