@@ -1,10 +1,22 @@
 import React from 'react';
+import { Card, Button, CardTitle, CardText, Row, Col } from 'reactstrap';
 import { Link } from 'react-router-dom';
-export default function SingUpSuccessful() {
+const SingUpSuccessful = props => {
   return (
-    <div>
-      <h1>Sign up Successful</h1>
-      <Link to="/">Go to login</Link>
-    </div>
+    <Row>
+      <Col sm="12">
+        <Card body>
+          <CardTitle>SignUp Successful</CardTitle>
+          <CardText>
+            Thank you for registration in Users list App please press on the
+            button below to login
+          </CardText>
+          <Link to="/">
+            <Button>Go to login </Button>
+          </Link>
+        </Card>
+      </Col>
+    </Row>
   );
-}
+};
+export default SingUpSuccessful;
