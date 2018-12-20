@@ -68,6 +68,7 @@ export const forgetPassword = (forgetPassUser, routeTo) => async dispatch => {
       alert(result.data.message);
 
       dispatch({ type: 'RESET_FAILD_MESSAGES' });
+      routeTo.push('/');
     } else {
       dispatch({ type: 'FORGET_PASS_FAILD', error: result.data.message });
     }

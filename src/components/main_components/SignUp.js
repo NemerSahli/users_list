@@ -38,6 +38,7 @@ class SignUp extends Component {
         };
 
         this.props.signUp(signUpUser, this.props.history);
+
         this.setState({ errors: {} });
       } else {
         this.setState({ errors: { confirmPass: 'wrong confirmation' } });
