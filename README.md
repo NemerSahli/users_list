@@ -1,4 +1,6 @@
-# Users List
+<div align="center">
+  <h1>Users List</h1>
+</div>
 
 - `npm install`
 - `npm start`
